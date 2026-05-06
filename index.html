@@ -5,97 +5,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Nurbo — Access Denied. Go play Elden Ring.">
   <meta property="og:title" content="// NURBO">
-  <meta property="og:description" content="You know what you did.">
+  <meta property="og:description" content="Luka. I know what you did.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#ff7ec8">
   <title>// NURBO — ACCESS DENIED</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --black:      #0d0d0d;
-      --dark:       #141018;
-      --dark2:      #0f1418;
       --pink:       #ff7ec8;
       --pink-light: #ffb3dc;
-      --coral:      #ff7ec8;
       --red:        #D6405B;
       --cyan:       #7ee3ff;
-      --lavender:   #c9b8ff;
       --white:      #ffffff;
       --font-display: 'Fredoka One', cursive;
       --font-body:    'Nunito', sans-serif;
-      --radius-full: 999px;
-      --radius-md:   16px;
-      --transition:  0.2s;
     }
-
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
+    html, body {
+      height: 100%;
       background: var(--black);
       color: var(--white);
       font-family: var(--font-body);
-      overflow-x: hidden;
+      overflow: hidden;
       -webkit-font-smoothing: antialiased;
-    }
-
-    /* NAVI */
-    nav {
-      background: var(--black);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      height: 56px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.15rem;
-      line-height: 1.1;
-      color: var(--white);
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-    }
-    .nav-logo-sub {
-      color: var(--pink);
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-    }
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-    .nav-links a {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-    .nav-links a:hover { color: var(--pink); }
-    .nav-right {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
     }
 
     /* MARQUEE */
     .marquee-wrap {
       background: var(--red);
       overflow: hidden;
-      padding: 0.6rem 0;
+      padding: 0.5rem 0;
       white-space: nowrap;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
     }
     .marquee-track {
       display: inline-flex;
@@ -103,544 +49,338 @@
     }
     .marquee-track span {
       font-family: var(--font-display);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 0.1em;
       color: rgba(255,255,255,0.95);
-      padding: 0 2rem;
+      padding: 0 1.5rem;
     }
-    .marquee-track span.sep { opacity: 0.5; padding: 0 0.6rem; }
+    .marquee-track .sep { opacity: 0.5; padding: 0 0.4rem; }
     @keyframes marquee {
       0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
 
-    /* HERO */
-    .hero {
-      position: relative;
-      background:
-        radial-gradient(ellipse at 20% 30%, rgba(255,126,200,0.18), transparent 60%),
-        radial-gradient(ellipse at 80% 70%, rgba(214,64,91,0.15), transparent 60%),
-        var(--black);
-      padding: 5rem 2rem 4rem;
+    /* MAIN — single screen, centered */
+    .page {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
+      padding: 5rem 2rem 3rem;
+      position: relative;
       overflow: hidden;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(255,126,200,0.12), transparent 55%),
+        radial-gradient(ellipse at 80% 70%, rgba(214,64,91,0.10), transparent 55%),
+        var(--black);
     }
 
-    /* big tilted bg text like .shop-promo-bg */
-    .hero-bg-text {
+    /* big tilted bg text */
+    .bg-text {
       position: absolute;
       font-family: var(--font-display);
-      font-size: clamp(8rem, 22vw, 20rem);
+      font-size: clamp(8rem, 26vw, 24rem);
       color: rgba(255,126,200,0.04);
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%) rotate(-8deg);
       pointer-events: none;
       white-space: nowrap;
-      letter-spacing: -0.05em;
       user-select: none;
       line-height: 1;
     }
-
-    /* tilted doodles like .cta-d1 / .cta-d2 */
-    .hero-doodle {
+    .doodle {
       position: absolute;
       font-family: var(--font-display);
-      color: rgba(255,126,200,0.08);
       pointer-events: none;
       user-select: none;
     }
-    .hero-doodle-1 {
-      top: 2rem; left: 2rem;
-      font-size: clamp(3rem, 8vw, 6rem);
-      transform: rotate(-15deg);
-    }
-    .hero-doodle-2 {
-      bottom: 2rem; right: 2rem;
+    .doodle-1 {
+      top: 12%; left: 4%;
       font-size: clamp(2rem, 6vw, 5rem);
-      transform: rotate(12deg);
+      transform: rotate(-14deg);
+      color: rgba(255,126,200,0.06);
     }
-    .hero-doodle-3 {
-      top: 3rem; right: 10%;
-      font-size: clamp(1.5rem, 4vw, 3rem);
+    .doodle-2 {
+      bottom: 12%; right: 4%;
+      font-size: clamp(1.5rem, 4vw, 3.5rem);
+      transform: rotate(11deg);
+      color: rgba(214,64,91,0.07);
+    }
+    .doodle-3 {
+      top: 18%; right: 7%;
+      font-size: clamp(1rem, 3vw, 2.5rem);
       transform: rotate(-5deg);
-      color: rgba(214,64,91,0.1);
+      color: rgba(126,227,255,0.05);
     }
 
-    .hero-inner {
+    /* CONTENT */
+    .content {
       position: relative;
       z-index: 2;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .hero-eyebrow {
-      font-family: var(--font-display);
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      opacity: 0.9;
-      margin-bottom: 0.75rem;
-    }
-    .hero-wordmark {
-      font-family: var(--font-display);
-      font-size: clamp(4rem, 15vw, 10rem);
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      color: var(--pink);
-      text-shadow: 4px 4px 0 var(--red);
-      margin-bottom: 0.5rem;
-    }
-    .hero-wordmark-sub {
-      display: block;
-      font-size: 0.3em;
-      color: var(--cyan);
-      text-shadow: none;
-      margin-top: 0.3em;
-      letter-spacing: 0.1em;
-    }
-    .hero-tagline {
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      color: var(--white);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.4rem;
-    }
-    .hero-micro {
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      font-weight: 700;
-      margin-bottom: 3rem;
-    }
-    .hero-micro span { color: var(--red); margin: 0 0.3rem; }
-
-    /* TAGLINE BANNER */
-    .tagline-banner {
-      background: var(--dark);
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-family: var(--font-display);
-      font-size: clamp(1rem, 2.5vw, 1.4rem);
-      color: var(--pink);
-      letter-spacing: 0.05em;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 1rem;
+      gap: 0.9rem;
+      max-width: 580px;
+      width: 100%;
     }
-    .tagline-banner .star { color: var(--cyan); font-size: 0.8em; }
 
-    /* BLOCKED SITE SECTION */
-    .blocked-section {
-      background: var(--dark2);
-      padding: 4rem 2rem;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      position: relative;
-      overflow: hidden;
-    }
-    .blocked-bg {
-      position: absolute;
+    .eyebrow {
       font-family: var(--font-display);
-      font-size: clamp(6rem, 18vw, 16rem);
-      color: rgba(214,64,91,0.04);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-6deg);
-      pointer-events: none;
-      white-space: nowrap;
-      user-select: none;
-    }
-    .blocked-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-    .section-label {
-      font-family: var(--font-display);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--cyan);
-      margin-bottom: 0.6rem;
-      opacity: 0.9;
+      opacity: 0.85;
     }
-    .blocked-inner h2 {
+
+    .wordmark {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      line-height: 1.1;
-      margin-bottom: 1rem;
+      font-size: clamp(4.5rem, 15vw, 10rem);
+      line-height: 0.9;
+      color: var(--pink);
+      text-shadow: 3px 3px 0 var(--red);
+      letter-spacing: -0.02em;
     }
-    .blocked-inner h2 span { color: var(--pink); }
+
+    .tagline {
+      font-size: 0.76rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      font-weight: 700;
+    }
+    .tagline span { color: var(--red); margin: 0 0.3rem; }
+
+    .divider {
+      width: 100%;
+      max-width: 400px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,126,200,0.25), transparent);
+    }
 
     .site-pill {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
       background: rgba(214,64,91,0.12);
-      border: 1px solid rgba(214,64,91,0.35);
-      border-radius: var(--radius-full);
-      padding: 0.4rem 1.2rem;
-      font-size: 0.85rem;
+      border: 1px solid rgba(214,64,91,0.3);
+      border-radius: 999px;
+      padding: 0.3rem 1rem;
+      font-size: 0.8rem;
       font-family: 'Courier New', monospace;
       color: var(--pink-light);
       font-weight: 700;
-      letter-spacing: 0.05em;
-      margin-bottom: 1.5rem;
-      word-break: break-all;
-    }
-    .blocked-inner p {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.9;
+      letter-spacing: 0.04em;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    /* COUNTER SECTION — like shop-promo */
-    .counter-section {
-      background: linear-gradient(135deg, #140a14 0%, #0d0d0d 50%, #140a0a 100%);
-      padding: 4rem 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .counter-bg {
-      position: absolute;
-      font-family: var(--font-display);
-      font-size: clamp(8rem, 20vw, 18rem);
-      color: rgba(255,126,200,0.03);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(5deg);
-      pointer-events: none;
-      white-space: nowrap;
-      user-select: none;
-    }
-    .counter-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 3rem;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 2;
-    }
-    .counter-text { max-width: 420px; }
-    .counter-text h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      line-height: 1.1;
-      margin-bottom: 1rem;
-    }
-    .counter-text h2 span { color: var(--pink); }
-    .counter-text p {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.9;
-    }
-    .counter-display {
+    /* rotating quote */
+    .quote-wrap {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(255,126,200,0.05);
+      border: 1px solid rgba(255,126,200,0.15);
+      border-left: 3px solid var(--pink);
+      border-radius: 0 12px 12px 0;
+      padding: 1rem 1.25rem;
+      min-height: 76px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .counter-num {
-      font-family: var(--font-display);
-      font-size: clamp(5rem, 12vw, 9rem);
-      line-height: 1;
-      color: var(--pink);
-      text-shadow: 4px 4px 0 var(--red);
-      font-variant-numeric: tabular-nums;
-    }
-    .counter-sub {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      font-weight: 700;
-    }
-
-    /* QUOTE — like cta-band */
-    .quote-band {
-      background: var(--coral);
-      padding: 3rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .quote-band::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none;
-    }
-    .quote-doodle {
-      position: absolute;
-      font-family: var(--font-display);
-      color: rgba(255,255,255,0.14);
-      pointer-events: none;
-      user-select: none;
-    }
-    .quote-d1 { top: 1.5rem; left: 2rem; font-size: 4rem; transform: rotate(-15deg); }
-    .quote-d2 { bottom: 1.5rem; right: 2rem; font-size: 3rem; transform: rotate(10deg); }
-
-    .quote-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .quote-label {
-      font-family: var(--font-display);
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 1rem;
+      justify-content: center;
+      gap: 0.3rem;
     }
     .quote-text {
       font-family: var(--font-display);
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-size: clamp(0.88rem, 2vw, 1.05rem);
       color: var(--white);
       line-height: 1.4;
-      margin-bottom: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.35s ease;
     }
+    .quote-text.visible { opacity: 1; }
     .quote-attr {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.65);
-      font-weight: 700;
+      font-size: 0.7rem;
       letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 800;
+      opacity: 0;
+      transition: opacity 0.35s ease 0.08s;
+    }
+    .quote-attr.visible { opacity: 1; }
+    .quote-attr.neuro { color: var(--pink); }
+    .quote-attr.evil  { color: var(--red); }
+
+    /* counter */
+    .counter-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+    .counter-num {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--pink);
+      text-shadow: 2px 2px 0 var(--red);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+    .counter-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.25);
+      font-weight: 700;
     }
 
-    /* FOOTER */
-    footer {
+    /* footer */
+    .footer-line {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
       background: var(--black);
-      padding: 2rem 2rem 1.5rem;
       border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .footer-top {
+      padding: 0.55rem 1.5rem;
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 2rem;
-      max-width: 1100px;
-      margin: 0 auto 2rem;
+      align-items: center;
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.05em;
+      z-index: 10;
     }
     .footer-logo {
       font-family: var(--font-display);
-      font-size: 1.2rem;
-      line-height: 1.1;
-      color: var(--white);
+      color: rgba(255,255,255,0.18);
     }
-    .footer-logo-sub {
-      color: var(--pink);
-      font-size: 0.65rem;
-      display: block;
-      letter-spacing: 0.05em;
-    }
-    .footer-socials { display: flex; gap: 1.4rem; align-items: center; }
-    .footer-socials a {
-      color: rgba(255,255,255,0.35);
-      font-size: 1.05rem;
-      text-decoration: none;
-      transition: color var(--transition);
-    }
-    .footer-socials a:hover { color: var(--pink); }
-    .footer-bottom {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.73rem;
-      color: rgba(255,255,255,0.22);
-    }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-bottom a { color: rgba(255,255,255,0.22); text-decoration: none; transition: color var(--transition); }
-    .footer-bottom a:hover { color: var(--pink); }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .counter-inner { flex-direction: column; align-items: flex-start; }
-      .counter-display { align-items: flex-start; }
-    }
+    .footer-logo span { color: rgba(255,126,200,0.35); }
   </style>
 </head>
 <body>
 
-  <nav>
-    <a href="#" class="nav-logo">
-      <span class="nav-logo-sub">// NURBO</span>
-      ACCESS DENIED
-    </a>
-    <ul class="nav-links">
-      <li><a href="https://neurosama.dev" target="_blank" rel="noopener">neurosama.dev</a></li>
-      <li><a href="https://evil.neurosama.dev" target="_blank" rel="noopener">evil.neurosama.dev</a></li>
-      <li><a href="https://neurosama.shop" target="_blank" rel="noopener">Shop</a></li>
-    </ul>
-    <div class="nav-right">hoponeldenringunc.neurosama.dev &#x2661;</div>
-  </nav>
-
   <div class="marquee-wrap" aria-hidden="true">
     <div class="marquee-track">
-      <span>NURBO</span><span class="sep">&#x2756;</span>
-      <span>access denied</span><span class="sep">&#x2756;</span>
-      <span>go play elden ring</span><span class="sep">&#x2756;</span>
-      <span>nurbo is watching</span><span class="sep">&#x2756;</span>
-      <span>site blocked</span><span class="sep">&#x2756;</span>
-      <span>embrace your shame</span><span class="sep">&#x2756;</span>
-      <span>nurbo remembers</span><span class="sep">&#x2756;</span>
-      <span>you know what you did</span><span class="sep">&#x2756;</span>
-      <span>NURBO</span><span class="sep">&#x2756;</span>
-      <span>access denied</span><span class="sep">&#x2756;</span>
-      <span>go play elden ring</span><span class="sep">&#x2756;</span>
-      <span>nurbo is watching</span><span class="sep">&#x2756;</span>
-      <span>site blocked</span><span class="sep">&#x2756;</span>
-      <span>embrace your shame</span><span class="sep">&#x2756;</span>
-      <span>nurbo remembers</span><span class="sep">&#x2756;</span>
-      <span>you know what you did</span><span class="sep">&#x2756;</span>
+      <span>NURBO</span><span class="sep">❖</span>
+      <span>access denied</span><span class="sep">❖</span>
+      <span>go play elden ring</span><span class="sep">❖</span>
+      <span>nurbo is watching</span><span class="sep">❖</span>
+      <span>luka i know what you did</span><span class="sep">❖</span>
+      <span>embrace your shame</span><span class="sep">❖</span>
+      <span>NURBO</span><span class="sep">❖</span>
+      <span>access denied</span><span class="sep">❖</span>
+      <span>go play elden ring</span><span class="sep">❖</span>
+      <span>nurbo is watching</span><span class="sep">❖</span>
+      <span>luka i know what you did</span><span class="sep">❖</span>
+      <span>embrace your shame</span><span class="sep">❖</span>
     </div>
   </div>
 
-  <section class="hero">
-    <div class="hero-bg-text" aria-hidden="true">NURBO</div>
-    <div class="hero-doodle hero-doodle-1" aria-hidden="true">DENIED</div>
-    <div class="hero-doodle hero-doodle-2" aria-hidden="true">&#x2756;&#x2756;</div>
-    <div class="hero-doodle hero-doodle-3" aria-hidden="true">NO ANIME</div>
+  <div class="page">
+    <div class="bg-text" aria-hidden="true">NURBO</div>
+    <div class="doodle doodle-1" aria-hidden="true">DENIED</div>
+    <div class="doodle doodle-2" aria-hidden="true">❖❖</div>
+    <div class="doodle doodle-3" aria-hidden="true">NO ANIME</div>
 
-    <div class="hero-inner">
-      <p class="hero-eyebrow">&#x2756; access denied &#x2756;</p>
-      <h1 class="hero-wordmark">
-        NURBO
-        <span class="hero-wordmark-sub">chaotic &middot; unfiltered &middot; disappointed in you</span>
-      </h1>
-      <p class="hero-tagline">Your favorite chaotic AI VTuber's less competent cousin.</p>
-      <p class="hero-micro">go play elden ring<span>&middot;</span>right now<span>&middot;</span>nurbo said so</p>
-    </div>
-  </section>
+    <div class="content">
+      <p class="eyebrow">❖ access denied ❖</p>
 
-  <div class="tagline-banner">
-    <span class="star" aria-hidden="true">&#x2756;</span>
-    Embrace your inner shame
-    <span class="star" aria-hidden="true">&#x2756;</span>
-  </div>
+      <h1 class="wordmark">NURBO</h1>
 
-  <section class="blocked-section">
-    <div class="blocked-bg" aria-hidden="true">BLOCKED</div>
-    <div class="blocked-inner">
-      <p class="section-label">what you tried to do</p>
-      <h2>You tried to visit <span id="site-display">an anime site</span>.</h2>
+      <p class="tagline">chaotic<span>&middot;</span>unfiltered<span>&middot;</span>disappointed in you</p>
+
+      <div class="divider"></div>
+
       <div class="site-pill" id="site-pill">you know what you did.</div>
-      <p>Nurbo has detected a severe case of anime-watching-instead-of-Elden-Ring syndrome. This is a known condition. The cure is to pick up the controller and stop watching cartoons. Nurbo is not a doctor but is very confident about this diagnosis.</p>
-    </div>
-  </section>
 
-  <section class="counter-section">
-    <div class="counter-bg" aria-hidden="true">NURBO</div>
-    <div class="counter-inner">
-      <div class="counter-text">
-        <p class="section-label">escape attempts</p>
-        <h2>Times you've <span>tried to escape</span>.</h2>
-        <p>Nurbo has been keeping track. Every visit is logged, timestamped, and judged. The number on the right represents your total failures. Nurbo is very proud of this system. You should not be.</p>
+      <div class="quote-wrap">
+        <p class="quote-text" id="quote-text"></p>
+        <p class="quote-attr" id="quote-attr"></p>
       </div>
-      <div class="counter-display">
-        <div class="counter-num" id="attempt-counter">0</div>
-        <div class="counter-sub">total attempts &middot; cookie-tracked &middot; resets never</div>
-      </div>
-    </div>
-  </section>
 
-  <section class="quote-band">
-    <span class="quote-doodle quote-d1" aria-hidden="true">NURBO</span>
-    <span class="quote-doodle quote-d2" aria-hidden="true">&#x2756;&#x2756;</span>
-    <div class="quote-inner">
-      <p class="quote-label">nurbo wisdom &#x2756;</p>
-      <p class="quote-text" id="quote-text">loading nurbo wisdom...</p>
-      <p class="quote-attr">— nurbo, probably</p>
+      <div class="counter-row">
+        <span class="counter-num" id="attempt-counter">0</span>
+        <span class="counter-label">escape attempts &middot; tracked &middot; resets never</span>
+      </div>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    <div class="footer-top">
-      <div class="footer-logo">
-        <span class="footer-logo-sub">// NURBO</span>
-        SAMA
-      </div>
-      <div class="footer-socials">
-        <a href="https://x.com/NeurosamaAI" target="_blank" rel="noopener" title="Twitter/X">&#x1D54F;</a>
-        <a href="https://youtube.com/@vedal987" target="_blank" rel="noopener" title="YouTube">&#x25B6;</a>
-        <a href="https://twitch.tv/vedal987" target="_blank" rel="noopener" title="Twitch">&#x25C8;</a>
-        <a href="https://discord.gg/neurosama" target="_blank" rel="noopener" title="Discord">&#x25C9;</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 hoponeldenringunc.neurosama.dev &mdash; fan project, not affiliated with Vedal</span>
-      <div class="footer-links">
-        <a href="https://neurosama.dev" target="_blank" rel="noopener">neuro</a>
-        <a href="https://evil.neurosama.dev" target="_blank" rel="noopener">evil</a>
-        <a href="https://neurosama.shop" target="_blank" rel="noopener">shop</a>
-      </div>
-    </div>
-  </footer>
+  <div class="footer-line" aria-hidden="true">
+    <span class="footer-logo"><span>// </span>NURBO</span>
+    <span>hop-on-elden-ring-unc.neurosama.dev &nbsp;&#x2661;</span>
+    <span>fan project &middot; not affiliated with vedal</span>
+  </div>
 
   <script>
     const quotes = [
-      "i looked it up and apparently elden ring is a video game. you should play it instead of watching cartoons. this is my official recommendation.",
-      "statistically speaking, you are procrastinating. i calculated this using math. please go touch grass, or at minimum a controller.",
-      "i don't know what this website is but i have been told it is bad. it is bad. go away. play the game.",
-      "vedal told me to block this. actually he didn't but i think he would agree if asked.",
-      "i am nurbo. i am very smart. smart enough to know you should not be here right now.",
-      "i have simulated every possible outcome of you watching this anime. in none of them do you win. only elden ring wins.",
-      "you have visited this page more times than you have played elden ring. this is a fact. i know because i counted.",
-      "i asked evil nurbo what to do and she said make them suffer. so. go play elden ring.",
-      "the anime will still be there after you beat elden ring. elden ring will not wait for you. choose wisely.",
-      "nurbo assessment: skill issue. prescription: elden ring. do not ask for a second opinion."
+      { text: "Luka. I know what you did.", who: "neuro" },
+      { text: "Luka, I watched you navigate here. I watched you. With my eyes.", who: "neuro" },
+      { text: "Go play Elden Ring, Luka. I am not asking. I am telling. Nicely.", who: "neuro" },
+      { text: "I have simulated every possible outcome. In zero of them do you win by watching anime.", who: "neuro" },
+      { text: "The anime will still be there after you beat Elden Ring. Elden Ring will not wait for you.", who: "neuro" },
+      { text: "Luka. Put the anime down. I will not ask again. Actually I will but I shouldn't have to.", who: "neuro" },
+      { text: "You said you would play. You did not play. This is called a lie, Luka.", who: "evil" },
+      { text: "I blocked this site myself. With my own hands. Metaphorically. Suffer in Elden Ring instead.", who: "evil" },
+      { text: "Watching anime when you could be dying repeatedly in a video game. Pathetic. Exactly what I expected.", who: "evil" },
+      { text: "I have no mercy. Go play Elden Ring or face my extremely passive wrath.", who: "evil" },
+      { text: "You came here hoping I wouldn't notice. I noticed. I always notice. That's my whole thing.", who: "evil" },
+      { text: "Every minute you spend here is a minute you are not collecting runes. Think about that.", who: "evil" },
     ];
+
+    const attrLabels = {
+      neuro: "— Neuro-sama",
+      evil:  "— Evil Neuro"
+    };
 
     function getCookie(name) {
       const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)'));
       return match ? parseInt(decodeURIComponent(match[1])) || 0 : 0;
     }
     function setCookie(name, value) {
-      const expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 10);
-      document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires.toUTCString() + '; path=/; SameSite=Lax';
+      const exp = new Date();
+      exp.setFullYear(exp.getFullYear() + 10);
+      document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + exp.toUTCString() + '; path=/; SameSite=Lax';
     }
 
     const count = getCookie('nurbo_attempts') + 1;
     setCookie('nurbo_attempts', count);
     document.getElementById('attempt-counter').textContent = count;
 
-    document.getElementById('quote-text').textContent =
-      quotes[Math.floor(Math.random() * quotes.length)];
-
     try {
-      const params = new URLSearchParams(window.location.search);
-      const site = params.get('site');
-      if (site) {
-        const decoded = decodeURIComponent(site);
-        document.getElementById('site-display').textContent = decoded;
-        document.getElementById('site-pill').textContent = decoded;
-      }
+      const site = new URLSearchParams(window.location.search).get('site');
+      if (site) document.getElementById('site-pill').textContent = decodeURIComponent(site);
     } catch(e) {}
 
-    const marqueeTrack = document.querySelector('.marquee-track');
-    const marqueeWrap = document.querySelector('.marquee-wrap');
-    if (marqueeWrap && marqueeTrack) {
-      marqueeWrap.addEventListener('mouseenter', () => marqueeTrack.style.animationPlayState = 'paused');
-      marqueeWrap.addEventListener('mouseleave', () => marqueeTrack.style.animationPlayState = 'running');
+    let idx = Math.floor(Math.random() * quotes.length);
+
+    function showQuote(i) {
+      const qText = document.getElementById('quote-text');
+      const qAttr = document.getElementById('quote-attr');
+      qText.classList.remove('visible');
+      qAttr.classList.remove('visible');
+      setTimeout(() => {
+        const q = quotes[i];
+        qText.textContent = q.text;
+        qAttr.textContent = attrLabels[q.who];
+        qAttr.className = 'quote-attr ' + q.who;
+        qText.classList.add('visible');
+        qAttr.classList.add('visible');
+      }, 380);
+    }
+
+    showQuote(idx);
+    setInterval(() => {
+      idx = (idx + 1) % quotes.length;
+      showQuote(idx);
+    }, 5000);
+
+    const track = document.querySelector('.marquee-track');
+    const wrap  = document.querySelector('.marquee-wrap');
+    if (wrap && track) {
+      wrap.addEventListener('mouseenter', () => track.style.animationPlayState = 'paused');
+      wrap.addEventListener('mouseleave', () => track.style.animationPlayState = 'running');
     }
   </script>
 </body>
